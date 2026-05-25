@@ -46,7 +46,7 @@
             --key-gap: 6px;
             --font-main: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             background-color: var(--bg);
             font-family: var(--font-main);
@@ -73,18 +73,18 @@
             font-size: 11px; font-weight: 400; color: #777; letter-spacing: 3px; text-transform: uppercase;
             text-shadow: 1px 1px 2px var(--shadow-dark), -1px -1px 2px var(--shadow-light);
         }
-        .new-game-btn, .hint-btn, .mode-toggle {
+        .new-game-btn, .hint-btn {
             background: var(--bg); border: none; color: #444; padding: 10px 18px;
             border-radius: var(--btn-radius); cursor: pointer; font-size: 12px; font-weight: 600;
             letter-spacing: 1px; font-family: var(--font-main);
             box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
             transition: all 0.2s ease; white-space: nowrap;
         }
-        .new-game-btn:hover, .hint-btn:hover:not(:disabled), .mode-toggle:hover {
+        .new-game-btn:hover, .hint-btn:hover:not(:disabled) {
             box-shadow: 3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light);
             color: #222; transform: translateY(-1px);
         }
-        .new-game-btn:active, .hint-btn:active:not(:disabled), .mode-toggle:active {
+        .new-game-btn:active, .hint-btn:active:not(:disabled) {
             box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
             color: #555; transform: translateY(1px);
         }
@@ -146,12 +146,6 @@
             padding:2px 10px; border-radius:6px; box-shadow:inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
             margin-left:4px;
         }
-        .lobby { display:flex; flex-direction:column; align-items:center; gap:12px; margin:20px 0; }
-        .lobby input { background:var(--bg); border:none; border-radius:var(--btn-radius); padding:12px 20px; font-size:16px; text-align:center; letter-spacing:4px; box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); font-family:var(--font-main); outline:none; color:#333; }
-        .lobby button { background:var(--bg); border:none; color:#444; padding:12px 24px; border-radius:var(--btn-radius); cursor:pointer; font-size:14px; font-weight:600; letter-spacing:1px; font-family:var(--font-main); box-shadow:5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light); transition:all 0.2s ease; }
-        .lobby button:hover { box-shadow:3px 3px 7px var(--shadow-dark), -3px -3px 7px var(--shadow-light); color:#222; transform:translateY(-1px); }
-        .lobby button:active { box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); color:#555; transform:translateY(1px); }
-        .countdown { font-size:48px; font-weight:700; color:#2d2d2d; }
         @media (max-width: 480px) {
             :root { --tile-size: 50px; --tile-gap: 6px; --key-height: 44px; --key-gap: 4px; --tile-radius: 14px; --key-radius: 12px; }
             .tile { font-size: 22px; }
@@ -160,7 +154,7 @@
             .key.wide .delete-icon { width: 20px; height: 20px; }
             .title { font-size: 22px; letter-spacing: 5px; }
             .header { padding: 18px 0 12px; margin-bottom: 4px; }
-            .new-game-btn, .hint-btn, .mode-toggle { font-size: 10px; padding: 8px 12px; }
+            .new-game-btn, .hint-btn { font-size: 10px; padding: 8px 12px; }
             .board { padding: 6px 0; }
             .toast { font-size: 12px; padding: 10px 22px; }
         }
@@ -171,7 +165,7 @@
             .key.wide { max-width: 46px; font-size: 9px; }
             .key.wide .delete-icon { width: 18px; height: 18px; }
             .title { font-size: 19px; letter-spacing: 4px; }
-            .new-game-btn, .hint-btn, .mode-toggle { font-size: 9px; padding: 6px 10px; }
+            .new-game-btn, .hint-btn { font-size: 9px; padding: 6px 10px; }
         }
     </style>
 </head>
@@ -179,28 +173,13 @@
     <div class="header">
         <div class="header-left">
             <span class="title">Wordle</span>
-            <span class="subtitle" id="modeSubtitle">Neumorphic</span>
+            <span class="subtitle">Neumorphic</span>
         </div>
-        <button class="mode-toggle" id="toggleModeBtn" title="Switch between Solo and Online mode">🌐 Online</button>
         <button class="hint-btn" id="hintBtn" title="Hint (3 remaining)">💡 Hint (<span id="hintCount">3</span>)</button>
         <button class="new-game-btn" id="newGameBtn" title="New Game">⟳ New</button>
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
-
-    <div id="lobby" class="lobby" style="display: none;">
-        <button id="createChallengeBtn">Create Challenge</button>
-        <div id="challengeCodeDisplay" style="display: none;">
-            <p style="color:#555;">Share this code:</p>
-            <input type="text" id="codeDisplay" readonly>
-        </div>
-        <div id="joinArea" style="display: flex; gap: 8px; align-items: center;">
-            <input type="text" id="joinCodeInput" placeholder="Enter code" maxlength="6" style="letter-spacing: 4px; width: 160px;">
-            <button id="joinChallengeBtn">Join</button>
-        </div>
-        <div id="onlineStatus" style="color:#555; font-weight:600;"></div>
-        <div id="countdownDisplay" class="countdown" style="display:none;"></div>
-    </div>
 
     <div class="game-container">
         <div class="board" id="board"></div>
@@ -210,16 +189,12 @@
 
     <script>
         (function() {
-            // ⚙️ UPSTASH CONFIGURATION
-            const UPSTASH_URL = 'https://holy-wasp-95019.upstash.io';
-            const UPSTASH_TOKEN = 'gQAAAAAAAXMrAAIgcDFiZjcyZmM4NGQyNDk0M2QxOWQ3MTVhMTUyYmJjOTA0Yw';
-
-            // ── WORD LISTS ──
+            // ── WORD LISTS ──────────────────────────────────
             const targetWords = ['about','above','abuse','actor','acute','admit','adopt','adult','after','again','agent','agree','ahead','alarm','album','alert','alien','align','alive','alley','allow','alone','along','alter','amber','ample','angel','anger','angle','angry','anime','ankle','annex','apart','apple','apply','arena','argue','arise','armor','array','arrow','aside','asset','atlas','attic','audio','audit','avoid','awake','award','aware','awful','bacon','badge','badly','baker','basic','basin','basis','beach','begin','being','below','bench','berry','birth','black','blame','bland','blank','blast','blaze','bleed','blend','bless','blind','block','blood','bloom','board','bonus','booth','bound','brain','brand','brave','bread','break','breed','brick','bride','brief','bring','broad','broke','brook','brown','brush','buddy','build','built','bunch','burst','buyer','cabin','cable','candy','carry','catch','cause','cedar','chain','chair','champ','chaos','charm','chart','chase','cheap','check','cheek','cheer','chess','chest','chief','child','chill','china','choir','chunk','churn','civil','claim','class','clean','clear','clerk','click','cliff','climb','cling','clock','clone','close','cloth','cloud','coach','coast','comic','coral','count','court','cover','crack','craft','crane','crash','crazy','cream','crime','cross','crowd','crown','crude','crush','curve','cycle','daily','dance','dated','dealt','death','debug','decay','debut','delay','delta','dense','depth','derby','devil','diary','dirty','dodge','doing','donor','doubt','dough','draft','drain','drama','drank','drawn','dream','dress','dried','drink','drive','drove','dying','eager','eagle','early','earth','eight','elder','elect','elite','email','ember','empty','enemy','enjoy','enter','entry','equal','error','essay','event','every','exact','exile','exist','extra','faint','faith','false','fancy','fatal','fault','feast','fence','ferry','fetch','fever','fiber','field','final','first','fixed','flame','flash','fleet','flesh','float','flock','flood','floor','flour','fluid','flush','focal','focus','force','forge','forth','forum','found','frame','frank','fraud','fresh','front','frost','fruit','fully','funny','ghost','giant','given','glass','globe','gloom','glory','gloss','glove','glyph','going','grace','grade','grain','grand','grant','grasp','grass','grave','great','green','greet','grief','grill','grind','groom','gross','group','grove','grown','guard','guess','guest','guide','guild','guilt','guise','gulch','habit','happy','harsh','heart','heavy','hence','herbs','hobby','honey','honor','horse','hotel','house','human','humor','hurry','ideal','image','imply','index','indie','inner','input','irony','issue','ivory','jewel','joint','joker','judge','juice','juicy','kayak','known','label','labor','laser','later','laugh','layer','learn','lease','least','leave','legal','lemon','level','light','limit','linen','liner','liver','local','lodge','logic','loose','lover','lower','lucky','lunch','lyric','magic','major','maker','manor','maple','march','marry','match','mayor','media','mercy','merge','merit','metal','midst','might','minor','minus','mixed','model','money','month','moral','motor','mount','mouse','mouth','movie','music','naive','nerve','never','newly','night','noble','noise','north','noted','novel','nurse','oasis','occur','ocean','offer','often','olive','onset','opera','orbit','order','organ','other','outer','owner','oxide','ozone','paint','panel','panic','paper','party','patch','pause','peace','pearl','penny','phase','phone','photo','piano','piece','pilot','pinch','pixel','pizza','place','plain','plane','plant','plate','plaza','plead','pleat','plier','pluck','plumb','plume','plump','plunk','point','polar','pound','power','press','price','pride','prime','print','prior','prize','probe','proof','prose','proud','prove','proxy','psalm','pulse','pupil','purse','queen','query','quest','queue','quick','quiet','quilt','quirk','quote','radar','radio','raise','rally','ranch','range','rapid','ratio','reach','react','ready','realm','rebel','refer','reign','relax','reply','rider','ridge','rifle','right','rigid','rival','river','robin','robot','rocky','rogue','roman','rouge','rough','round','route','royal','rugby','ruler','rural','saint','salon','sauce','scale','scare','scene','scent','scope','score','scout','scrap','screw','sense','serum','serve','setup','seven','shade','shaft','shake','shall','shame','shape','share','shark','sharp','sheep','sheer','sheet','shelf','shell','shift','shine','shirt','shock','shoot','shore','short','shout','shove','sight','sigma','since','sixth','sixty','sized','skill','skull','slate','slave','sleep','slice','slide','slope','small','smart','smell','smile','smoke','snack','snake','solid','solve','sorry','sound','south','space','spare','spark','speak','speed','spell','spend','spill','spine','spite','split','spoke','sport','spray','squad','stack','staff','stage','stain','stake','stale','stall','stamp','stand','stare','start','state','steak','steal','steam','steel','steep','steer','stern','stick','still','stock','stone','stood','store','storm','story','stove','stuff','style','sugar','suite','sulky','super','surge','swamp','swarm','swear','sweat','sweep','sweet','swept','swift','swing','sword','swore','sworn','syrup','table','taken','taste','teach','teeth','tenth','thank','theft','their','theme','there','these','thick','thief','thing','think','third','those','three','threw','throw','thumb','tidal','tiger','tight','timer','tired','title','today','token','topic','total','touch','tough','towel','tower','toxic','trace','track','trade','trail','train','trait','trash','treat','trend','trial','tribe','trick','tried','troop','truck','truly','trump','trunk','trust','truth','tumor','twice','twist','ultra','uncle','under','undue','unfit','union','unite','unity','until','upper','upset','urban','usage','usual','utter','vague','valid','value','valve','vault','venue','verse','video','vigor','viral','virus','visit','vital','vivid','vocal','vodka','voice','voter','vowel','wagon','waist','waste','watch','water','weave','wedge','weigh','weird','wheat','wheel','where','which','while','whirl','white','whole','whose','wider','widow','width','witch','woman','world','worry','worse','worst','worth','would','wound','wrack','write','wrong','wrote','yacht','yield','young','youth','zebra'];
             const extraValidWords = ['aback','abase','abate','abbey','abhor','abide','abler','abode','abort','abyss','acorn','acrid','adapt','adder','adept','adieu','adman','admen','adobe','aegis','affix','afire','afoot','agape','agate','agile','aging','aglow','agony','agora','aided','aimed','aired','aisle','alack','algal','alias','alibi','allay','allot','alloy','aloft','aloof','alpha','altar','amend','amiss','amity','among','amour','amply','amuse','anent','anew','anime','annul','antic','anvil','aorta','apace','aphid','apnea','apple','april','apron','aptly','arbor','ardor','areal','argon','argot','aroma','arson','artsy','ashen','askew','aspen','assai','assay','aster','astir','atoll','atone','attic','auger','augur','aunty','aural','auxin','avail','avast','avert','avian','avoid','axial','axiom','azure','babel','babes','backs','baddy','badly','bagel','baggy','baize','baked','baldy','baled','balky','balls','balmy','balsa','banal','bands','banjo','barge','baron','basal','bases','baste','batch','bathe','baton','batty','bayou','beach','beady','beard','beast','beech','beefy','beget','begun','beige','belch','belie','belle','belly','below','beret','berth','beset','betel','bevel','bezel','biddy','bight','bigot','bijou','biker','bilge','binge','bingo','birch','bison','bitty','blare','blase','blate','blaze','bleak','bleat','bleep','blimp','blink','bliss','blitz','bloat','bloke','blond','blown','blues','bluff','blunt','blurb','blurt','boast','bobby','bogey','boggy','bogus','bolus','boned','boner','bonny','booby','boozy','borax','bosom','bossy','botch','bough','boule','bovid','bowel','boxer','brace','bract','brags','braid','brake','brash','brass','bravo','brawl','brawn','braze','briar','bribe','brink','brisk','briny','briar','broil','broke','brood','brook','broom','broth','bruin','bruit','brunt','brute','buddy','budge','buggy','bugle','bulge','bulky','bully','bumpy','bunny','burly','burnt','burro','bursa','busty','butte','buxom','cabal','cabby','cacti','cadet','cadre','cairn','calif','calyx','camel','cameo','canal','canny','canoe','canon','caput','carat','cargo','carol','carve','caste','catch','cater','catty','caulk','cause','cavil','cease','cedar','cello','chafe','chaff','chair','chant','chard','chary','chasm','cheat','chess','chide','chili','chill','chime','chimp','china','chirp','chock','choir','choke','chomp','chord','chore','chose','chuck','chump','chunk','churl','churn','chute','cider','cigar','cinch','circa','citro','civic','clack','clamp','clang','clash','clasp','cleat','cleft','clerk','clever','cliff','clime','cling','clink','clips','cloak','clone','clout','clove','clown','cluck','clump','clung','coach','coast','cobra','cocky','cocoa','codex','cohort','colic','colon','comet','comma','conch','condo','coney','conic','copse','coral','corny','corps','costly','couch','cough','covey','cowry','coyly','crack','craft','cramp','crane','crank','crass','crate','crave','crawl','craze','creak','cream','credo','creek','crepe','crept','cress','crest','crime','crimp','crisp','croak','crock','crone','crony','crook','croon','croup','crown','crude','crumb','crypt','cubby','cubic','cumin','cupid','curio','curly','curry','curse','curve','cutie','cyber','cycle','cynic','daddy','dally','dance','dandy','datum','daunt','debit','debug','debut','decaf','decal','decor','decoy','decry','defer','defog','deify','deign','deity','delta','delve','demon','demur','denim','dense','depot','depth','derby','deter','detox','deuce','devil','diary','dicey','digit','dilly','dimly','diner','dingo','dingy','diode','dirty','disco','ditch','ditto','ditty','dizzy','dodge','dogma','doing','dolly','donor','donut','dopey','doubt','dough','dowry','dozen','draft','drake','drape','dread','dress','dried','drift','drill','drone','dross','drove','dryer','duchy','dully','dummy','dumpy','dunce','dusky','dusty','dwarf','dwell','dwelt','dying','eager','eagle','eared','early','earthy','easel','eaten','eater','ebony','edema','edged','edict','edify','eerie','eight','eject','eland','elate','elbow','elder','elect','elfin','elide','elope','elude','email','embed','ember','emcee','emoji','empty','enact','endow','enema','enjoy','ennui','ensue','epoch','epoxy','equal','erase','erect','erode','essay','ester','ether','ethic','evade','event','exact','exalt','excel','exert','exile','expat','expel','extol','extra','exude','exult','fable','facet','faint','fairy','faith','faker','fanny','farce','fatal','fatty','fault','fauna','favor','feast','fecal','feign','feint','felon','femur','feral','ferry','fetal','fetch','fetid','fetus','fiend','fiery','fifth','fifty','fight','filch','filet','filly','filmy','finch','finny','first','fishy','fizzy','flack','flail','flair','flaky','flame','flank','flare','flask','fleck','fleet','flick','fling','flint','flirt','flock','flood','flora','floss','flour','flout','fluff','fluid','fluke','flume','flung','flunk','flush','flute','foamy','focal','focus','foggy','folio','folly','force','forge','forte','forum','fossa','fouls','fount','foyer','frail','frame','franc','frank','fraud','freak','freed','freer','fresh','friar','fried','frill','frisk','frock','frond','frost','froth','frown','fruit','fryer','fudge','fugue','fully','fumed','funny','furor','furry','fussy','fusty','futon','fuzzy','gable','gadget','gaffe','gains','gamer','gamma','gamut','gassy','gated','gator','gaudy','gauge','gauze','gavel','gawky','gayer','gazed','gecko','geeky','genie','genoa','genre','ghost','ghoul','giant','giddy','gipsy','girth','gismo','given','giver','glade','gland','glare','glass','glaze','gleam','glean','glide','glint','gloat','gloom','glory','gloss','glove','glyph','gnarl','gnash','gnome','godly','gofer','golly','goner','gooey','goofy','gorge','gouge','gourd','grace','grade','graft','grail','grain','grand','grant','grape','graph','grasp','grass','grate','grave','gravy','graze','grebe','grief','grime','grimy','grind','gripe','grist','groan','groin','groom','grope','gross','grove','growl','gruel','gruff','grump','grunt','guava','guess','guest','guide','guild','guile','guilt','guise','gulch','gully','gumbo','gummy','guppy','gusto','gusty','gutty','habit','hairy','halve','hammy','happy','hardy','harem','harpy','harry','harsh','haste','hasty','hatch','haunt','haven','havoc','hazel','heady','heart','heavy','hedge','hefty','heist','helix','hello','herbs','hertz','hilly','hinge','hippo','hippy','hitch','hoard','hobby','hogan','holly','homer','honey','honor','horde','horny','horse','hotly','hound','house','hovel','hover','howdy','human','humid','humor','humph','humus','hunch','hunky','hurly','hurry','husky','hussy','hyena','hyper','icier','icing','igloo','image','imbue','impel','incur','index','indie','inept','inert','infer','ingot','inlay','inlet','inner','inter','intro','ionic','irony','islet','issue','ivory','jabot','jacky','jaded','jaunt','jawed','jazzy','jeans','jelly','jenny','jewel','jiffy','joint','joist','joker','jolly','joule','joust','jowly','judge','juice','juicy','jumbo','jumpy','junco','junky','junta','juror','kabob','kapok','kappa','kaput','karat','kayak','kazoo','kebab','khaki','kiddo','kinda','kinky','kiosk','kitty','klutz','knack','knave','knead','kneed','kneel','knell','knelt','knife','knock','knoll','known','koala','kooky','kopek','kraut','krill','krona','krone','kudzu','kyack','label','labor','laced','laden','ladle','lager','laird','lambs','lamps','lance','lanky','lapel','lapse','large','larva','lasso','latch','later','lathe','latte','laugh','laver','leafy','leaky','learn','lease','least','ledge','leery','lefty','legal','leggy','lemme','lemon','lemur','letup','level','lever','libel','licit','lifes','light','liken','lilac','limit','linen','liner','lingo','lipid','liter','lithe','lived','liven','llama','loamy','loath','lobby','local','locus','lodge','lofty','logic','login','loner','loose','lorry','lotto','louse','lousy','lover','lower','loyal','lucid','lucky','lucre','lumpy','lunar','lunch','lycee','lying','lymph','lynch','lyric','macaw','macho','macro','madam','madly','mafia','magma','magna','maize','major','maker','malty','mamba','mamma','manga','mange','mango','mangy','mania','manic','manly','manna','manor','manse','maple','marsh','masse','mauve','maxim','maybe','mayor','mealy','means','meant','meaty','medal','media','medic','melee','melon','mercy','merge','merit','merry','messy','metal','meter','micro','midst','might','milky','mimic','mince','miner','minor','minty','minus','mirth','miser','missy','mocha','modal','model','mogul','moist','molar','moldy','momma','money','month','mooch','moody','moose','moral','moray','motel','motif','motor','motto','mound','mount','mourn','mouse','mouth','mover','movie','mower','mucin','mucus','muddy','muggy','mulch','mummy','munch','mural','murky','mushy','music','musky','musty','myrrh','nadir','naive','nancy','nanny','nasal','nasty','naval','navel','needy','neigh','nerdy','nerve','newly','nicer','niche','niece','nifty','nimby','ninny','ninth','nippy','noble','nodal','noise','noisy','nonce','noose','north','notch','noted','novel','nudge','nurse','nymph','oaken','oasis','occur','ocean','octal','octet','odder','offer','often','ogler','oiled','oinky','olden','olive','omega','onset','onward','oomph','opine','opium','optic','orate','orbit','order','organ','otter','ounce','outdo','outer','ovary','overt','ovine','ovoid','owing','owner','oxide','ozone','paddy','padre','paean','pagan','paint','paler','palsy','panel','panic','pansy','pants','paper','parch','parer','parka','parry','parse','party','pasta','paste','pasty','patch','patio','patty','pause','peace','peach','peaky','pearl','pecan','pedal','penal','penny','peony','perch','peril','perky','pesto','petal','petty','phase','phone','phony','photo','piano','piece','piety','piggy','pilot','pinch','piney','pinky','pinto','piper','pique','pithy','pixel','pixie','pizza','place','plaid','plain','plane','plank','plant','plaza','plead','pleat','plier','pluck','plumb','plume','plump','plunk','plush','poach','poesy','point','poise','poker','polar','polyp','pooch','poppy','porch','poser','posit','posse','pouch','poult','pound','power','prank','prate','prawn','press','price','prick','pride','prime','print','prior','prism','prize','probe','promo','prone','proof','prose','proud','prove','prowl','proxy','prude','prune','psalm','pseud','pubic','pudgy','puffy','pulpy','pulse','punch','pupil','puppy','puree','purge','purse','pushy','putty','pygmy','quack','qualm','quart','queen','queer','quell','query','quest','queue','quick','quiet','quilt','quirk','quota','quote','rabid','racer','radar','radii','radio','rainy','raise','rally','ramen','ranch','randy','range','rapid','raspy','ratio','ratty','raven','rayon','reach','react','ready','realm','reams','rebel','recap','recur','refer','reign','relax','reply','rider','ridge','rifle','right','rigid','rinse','ripen','risen','risky','rival','river','roast','robin','robot','rocky','rodeo','rogue','roman','rouge','rough','round','rouse','route','rover','rowdy','royal','ruble','rugby','ruins','ruler','runny','rural','rusty','sadly','saint','salad','salon','salsa','salty','salve','salvo','sandy','saner','sappy','sassy','sauce','saucy','sauna','saute','savor','savvy','scald','scale','scalp','scamp','scant','scare','scarf','scary','scene','scent','scion','scoff','scold','scoop','scope','score','scorn','scour','scout','scowl','scrap','screw','scrip','scrub','scuba','sedan','seize','sense','serif','serum','serve','setup','seven','sever','sewer','shack','shade','shaft','shake','shall','shame','shape','share','shark','sharp','shave','shawl','shear','sheen','sheep','sheer','sheet','shelf','shell','shift','shine','shiny','shire','shirk','shirt','shoal','shock','shone','shook','shoot','shore','short','shout','shove','shrew','shrub','shrug','shuck','shunt','sight','sigma','silky','silly','since','sinew','singe','sissy','sixth','sixty','sized','skate','skein','skier','skiff','skill','skimp','skulk','skull','skunk','slack','slain','slang','slant','slash','slate','slave','sleek','sleep','slice','slick','slide','slime','sling','slink','sloop','slope','slosh','sloth','slump','slung','slunk','slurp','smack','small','smart','smash','smear','smell','smelt','smile','smirk','smite','smith','smock','smoke','smote','snack','snail','snake','snare','snarl','sneak','sneer','snide','snipe','snoop','snore','snort','snowy','snuff','soapy','sober','solar','solid','solve','sonar','sonic','sooth','sooty','sorry','sound','south','space','spade','spare','spark','spasm','spawn','speak','spear','speed','spell','spend','spent','spice','spill','spine','spite','splat','split','spoke','spoof','spook','spool','spoon','sport','spray','spree','spunk','spurn','spurt','squad','stack','staff','stage','staid','stain','stair','stake','stale','stalk','stall','stamp','stand','stank','stare','stark','start','state','stave','stead','steak','steal','steam','steed','steel','steep','steer','stern','stick','stiff','still','sting','stink','stoat','stock','stoic','stoke','stole','stone','stood','stool','stoop','store','storm','story','stout','stove','strap','straw','stray','strip','stuck','study','stuff','stump','stung','stunk','style','suave','sugar','suite','sulky','sunny','super','surge','surly','swain','swami','swamp','swarm','swear','sweat','sweep','sweet','swept','swift','swill','swine','swing','swirl','swish','swoon','swoop','sword','swore','sworn','swung','syrup','tabby','table','taboo','tacit','tacky','taffy','taint','taken','talon','tamer','tango','tangy','taper','tapir','tardy','tarot','taste','tasty','taunt','teach','teary','tease','teddy','teeth','tempo','tenet','tenor','tense','tenth','tepee','tepid','terra','terse','thank','theft','their','theme','there','these','theta','thick','thief','thing','think','third','thong','thorn','those','three','threw','throb','throw','thump','thyme','tiara','tidal','tiger','tight','tilde','timer','timid','tired','titan','title','toast','today','token','tonal','tonic','tooth','topic','total','touch','tough','towel','tower','toxic','trace','track','trade','trail','train','trait','tramp','trash','trawl','tread','treat','trend','triad','trial','tribe','trice','trick','tried','trill','tripe','trite','troll','troop','trope','trout','truce','truck','truly','trump','trunk','trust','truth','tryst','tubal','tuber','tulip','tulle','tumor','tuner','tunic','turbo','tutor','twain','tweak','tweed','twice','twill','twine','twirl','twist','tying','udder','ulcer','ultra','umbra','uncle','uncut','under','undid','undue','unfed','unfit','unhip','unify','union','unite','unity','unlit','unmet','unset','untie','until','unwed','unzip','upend','upper','upset','urban','urine','usage','usher','usual','usurp','utile','utter','uvula','vacua','vague','valet','valid','valor','value','valve','vaned','vapid','vault','vaunt','vegan','venal','venom','venue','verse','verve','video','vigor','vinyl','viola','viper','viral','virus','visit','visor','vista','vital','vivid','vixen','vocal','vodka','vogue','voice','volta','voter','vouch','vowel','vroom','vying','wacky','wafer','wager','wages','wagon','waist','waive','waltz','wanna','warty','washy','waste','watch','water','waver','waxed','weary','weave','wedge','weedy','weigh','weird','welsh','whack','whale','wharf','wheat','wheel','where','which','while','whine','whirl','whisk','white','whole','whore','whose','widen','wider','widow','width','wield','wince','windy','wiper','wired','witch','witty','woman','woody','wooer','woozy','wordy','world','worry','worse','worst','worth','would','wound','woven','wrack','wrath','wreak','wreck','wrest','wring','wrist','write','wrong','wrote','wrung','xenon','yacht','yearn','yeast','yield','young','youth','zebra','zesty','zippy','zonal','zoned'];
             const validWordsSet = new Set([...targetWords, ...extraValidWords]);
 
-            // ── GAME STATE ──
+            // ── GAME STATE ──────────────────────────
             const state = {
                 targetWord: '',
                 currentRow: 0,
@@ -229,16 +204,9 @@
                 isRevealing: false,
                 keyboardStates: {},
                 hintsUsed: 0,
-                mode: 'solo',
-                onlineCode: null,
-                playerId: null,
-                isHost: false,
-                opponentId: null,
-                pollInterval: null,
-                onlineStatus: 'idle',
             };
 
-            // ── DOM ELEMENTS ──
+            // ── DOM ELEMENTS ────────────────────────
             const boardEl = document.getElementById('board');
             const messageArea = document.getElementById('messageArea');
             const keyboardEl = document.getElementById('keyboard');
@@ -246,18 +214,8 @@
             const newGameBtn = document.getElementById('newGameBtn');
             const hintBtn = document.getElementById('hintBtn');
             const hintCountSpan = document.getElementById('hintCount');
-            const toggleModeBtn = document.getElementById('toggleModeBtn');
-            const modeSubtitle = document.getElementById('modeSubtitle');
-            const lobby = document.getElementById('lobby');
-            const createChallengeBtn = document.getElementById('createChallengeBtn');
-            const challengeCodeDisplay = document.getElementById('challengeCodeDisplay');
-            const codeDisplay = document.getElementById('codeDisplay');
-            const joinCodeInput = document.getElementById('joinCodeInput');
-            const joinChallengeBtn = document.getElementById('joinChallengeBtn');
-            const onlineStatus = document.getElementById('onlineStatus');
-            const countdownDisplay = document.getElementById('countdownDisplay');
 
-            // ── HELPERS ──
+            // ── HELPERS ────────────────────────────
             function getCurrentGuessPadded() {
                 let g = state.guesses[state.currentRow] || '';
                 while (g.length < 5) g += ' ';
@@ -269,195 +227,7 @@
                 state.currentTile = 5;
             }
 
-            // ── UPSTASH REST ──
-            async function upstashGet(key) {
-                const res = await fetch(`${UPSTASH_URL}/get/${key}`, { headers: { Authorization: `Bearer ${UPSTASH_TOKEN}` } });
-                if (!res.ok) throw new Error('Upstash GET failed');
-                const data = await res.json();
-                return data.result;
-            }
-            async function upstashSet(key, value, ex = 600) {
-                const res = await fetch(`${UPSTASH_URL}/set/${key}`, {
-                    method: 'POST',
-                    headers: { Authorization: `Bearer ${UPSTASH_TOKEN}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ value, ex })
-                });
-                if (!res.ok) throw new Error('Upstash SET failed');
-            }
-
-            // ── ONLINE MODE ──
-            function generateCode() { return Math.random().toString(36).substring(2, 8).toUpperCase(); }
-            function generatePlayerId() {
-                if (!localStorage.getItem('wordlePlayerId')) localStorage.setItem('wordlePlayerId', Math.random().toString(36).substring(2, 15));
-                return localStorage.getItem('wordlePlayerId');
-            }
-
-            async function createChallenge() {
-                const code = generateCode();
-                const playerId = generatePlayerId();
-                state.onlineCode = code;
-                state.playerId = playerId;
-                state.isHost = true;
-                const challengeData = {
-                    targetWord: targetWords[Math.floor(Math.random() * targetWords.length)],
-                    player1: playerId, player2: null, status: 'waiting', winner: null, startTime: null,
-                };
-                await upstashSet(`challenge:${code}`, JSON.stringify(challengeData), 600);
-                state.onlineStatus = 'waiting';
-                showOnlineLobby();
-                startPolling();
-            }
-
-            async function joinChallenge() {
-                const code = joinCodeInput.value.trim().toUpperCase();
-                if (!code) return showToast('Enter a code');
-                const playerId = generatePlayerId();
-                try {
-                    const data = await upstashGet(`challenge:${code}`);
-                    if (!data) return showToast('Challenge not found');
-                    const challenge = JSON.parse(data);
-                    if (challenge.player2) return showToast('Challenge already full');
-                    challenge.player2 = playerId;
-                    await upstashSet(`challenge:${code}`, JSON.stringify(challenge), 600);
-                    state.onlineCode = code;
-                    state.playerId = playerId;
-                    state.isHost = false;
-                    state.opponentId = challenge.player1;
-                    state.onlineStatus = 'waiting';
-                    showOnlineLobby();
-                    startPolling();
-                } catch (e) { showToast('Failed to join challenge'); }
-            }
-
-            function startPolling() {
-                if (state.pollInterval) clearInterval(state.pollInterval);
-                state.pollInterval = setInterval(pollChallengeState, 1000);
-            }
-
-            async function pollChallengeState() {
-    // Do NOT return early – we must always poll to detect game start & updates
-    try {
-        const data = await upstashGet(`challenge:${state.onlineCode}`);
-        if (!data) {
-            stopPolling();
-            showToast('Challenge expired');
-            return;
-        }
-        const challenge = JSON.parse(data);
-
-        // Only show a winner toast if the local game hasn't already ended
-        if (challenge.winner && state.gameStatus === 'playing') {
-            state.onlineStatus = 'finished';
-            stopPolling();
-            if (challenge.winner === state.playerId) {
-                showToast('You won! 🎉');
-                state.gameStatus = 'won';
-            } else {
-                showToast('You lost! 😔');
-                state.gameStatus = 'lost';
-            }
-            updateMessageArea();
-            return;
-        }
-
-        // Start the game when both players are present (host only)
-        if (challenge.status === 'waiting' && challenge.player1 && challenge.player2 && state.isHost) {
-            challenge.status = 'playing';
-            challenge.startTime = Date.now();
-            await upstashSet(`challenge:${state.onlineCode}`, JSON.stringify(challenge), 600);
-        }
-
-        // If the status has just become 'playing', kick off the countdown
-        if (challenge.status === 'playing' && state.onlineStatus !== 'playing') {
-            state.onlineStatus = 'playing';
-            state.targetWord = challenge.targetWord;
-            startCountdown();
-        } else if (challenge.status === 'waiting') {
-            onlineStatus.textContent = state.isHost ? 'Waiting for opponent...' : 'Joined! Waiting for host to start...';
-        }
-    } catch (e) {
-        // network errors are harmless
-    }
-}
-
-            function stopPolling() {
-                if (state.pollInterval) { clearInterval(state.pollInterval); state.pollInterval = null; }
-            }
-
-            function startCountdown() {
-                let count = 3;
-                countdownDisplay.style.display = 'block';
-                countdownDisplay.textContent = count;
-                const timer = setInterval(() => {
-                    count--;
-                    if (count > 0) countdownDisplay.textContent = count;
-                    else {
-                        clearInterval(timer);
-                        countdownDisplay.textContent = 'GO!';
-                        setTimeout(() => { countdownDisplay.style.display = 'none'; startOnlineGame(); }, 600);
-                    }
-                }, 1000);
-            }
-
-            function startOnlineGame() {
-                state.gameStatus = 'playing';
-                state.currentRow = 0; state.currentTile = 0; state.guesses = [];
-                state.keyboardStates = {}; state.hintsUsed = 0;
-keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','misplaced','absent'));
-                lobby.style.display = 'none';   // hide lobby
-                buildBoard();
-                updateKeyboardVisuals();
-                updateHintButton();
-                messageArea.textContent = '';
-                messageArea.classList.remove('win','loss');
-            }
-
-            async function submitOnlineGuess(guess) {
-                try {
-                    const data = await upstashGet(`challenge:${state.onlineCode}`);
-                    const challenge = JSON.parse(data);
-                    if (challenge.winner) return;
-                    if (guess === challenge.targetWord) {
-                        challenge.winner = state.playerId;
-                        challenge.status = 'finished';
-                        await upstashSet(`challenge:${state.onlineCode}`, JSON.stringify(challenge), 600);
-                    }
-                } catch (e) { showToast('Failed to submit guess'); }
-            }
-
-            function showOnlineLobby() {
-                lobby.style.display = 'flex';
-                if (state.isHost) {
-                    challengeCodeDisplay.style.display = 'block';
-                    codeDisplay.value = state.onlineCode;
-                    onlineStatus.textContent = 'Waiting for opponent...';
-                } else {
-                    challengeCodeDisplay.style.display = 'none';
-                    onlineStatus.textContent = 'Joined! Waiting for host to start...';
-                }
-                hintBtn.style.display = 'none';
-                newGameBtn.style.display = 'none';
-            }
-
-            function resetToSolo() {
-                stopPolling();
-                state.mode = 'solo'; state.onlineCode = null; state.playerId = null; state.isHost = false; state.onlineStatus = 'idle';
-                lobby.style.display = 'none'; hintBtn.style.display = 'inline-block'; newGameBtn.style.display = 'inline-block';
-                countdownDisplay.style.display = 'none'; modeSubtitle.textContent = 'Neumorphic'; toggleModeBtn.textContent = '🌐 Online';
-                initGame();
-            }
-
-            function switchToOnline() {
-                if (state.mode === 'online') return;
-                stopPolling();
-                state.mode = 'online'; state.gameStatus = 'idle';
-                modeSubtitle.textContent = 'Online Race'; toggleModeBtn.textContent = '👤 Solo';
-                hintBtn.style.display = 'none'; newGameBtn.style.display = 'none';
-                lobby.style.display = 'flex'; challengeCodeDisplay.style.display = 'none'; onlineStatus.textContent = '';
-                countdownDisplay.style.display = 'none'; boardEl.innerHTML = ''; messageArea.textContent = 'Create or join a challenge';
-            }
-
-            // ── BOARD & KEYBOARD ──
+            // ── BOARD & KEYBOARD BUILD ────────────
             function buildBoard() {
                 boardEl.innerHTML = '';
                 for (let row = 0; row < 6; row++) for (let col = 0; col < 5; col++) {
@@ -465,6 +235,7 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
                     tile.dataset.row = row; tile.dataset.col = col; boardEl.appendChild(tile);
                 }
             }
+
             function buildKeyboard() {
                 keyboardEl.innerHTML = '';
                 const rows = [['q','w','e','r','t','y','u','i','o','p'], ['a','s','d','f','g','h','j','k','l'], ['enter','z','x','c','v','b','n','m','backspace']];
@@ -498,7 +269,7 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
                 }
             }
 
-            // ── WIN MESSAGES ──
+            // ── WIN MESSAGES ───────────────────────
             function getWinMessage(guessCount) {
                 const messages = {
                     1: ["Unbelievable! A first‑guess miracle! 🏆","You got it on the first try?! Legendary! 🌟","One shot, one word. You're a wizard! 🧙‍♂️","First guess? That's absolutely incredible! 🎯","No way… right on the first attempt! 😮","Psychic powers confirmed. First guess! 🔮","A perfect start! You're unstoppable! 🚀","First attempt mastery! Who needs hints? 🥇","You didn't even break a sweat! First guess! 💪","Impossible? Nope. First guess champion! 🏅","That wasn't luck — that's pure skill! First try! 🎩","You've reached peak Wordle. First guess! 🏔️","Are you kidding me? First guess genius! 🤯","First guess! You should frame this moment. 🖼️","I'm speechless. First guess perfection. 🤫","First try? You've got to be cheating! (Just kidding) 😜","You didn't just solve it — you owned it! First guess! 👑","One and done. The Wordle gods bow to you. 🙇‍♂️","Is this real life? First guess wizardry! 🌈","You peered into the matrix. First guess! 👁️","No warm‑up needed. First guess dominance! 💥","First guess victory dance incoming! 💃","The word never stood a chance. First try! ⚡","You've unlocked ultra instinct. First guess! 🥋","First guess? I'm calling the record books. 📖","Not even a second thought. First guess mastery! 🌠","First guess. Drop the mic. 🎤","That's a hole‑in‑one, Wordle style! ⛳","You must be reading my mind. First guess! 🧠","First guess = instant legend status. 🐐","No hints, no hesitation. First guess hero! 🦸‍♂️","You just set the bar impossibly high. First try! 📈","First guess, pure instinct. Amazing! 🐅","You made the target word beg for mercy. First guess! 😂","First guess perfection. You're on fire! 🔥","Wordle? More like 'Already Solved'. First try! ✅","You saw the word before you even started. First guess! 🔭","First guess — the best kind of guess. 💯","I think you broke the game. First guess! 🎮","First guess, no big deal… just kidding, HUGE deal! 🎉"],
@@ -519,7 +290,7 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
                 else if (state.gameStatus === 'lost') { messageArea.classList.add('loss'); messageArea.innerHTML = `The answer was <span class="answer-reveal">${state.targetWord}</span>`; }
             }
 
-            // ── TOAST ──
+            // ── TOAST ──────────────────────────────
             function showToast(message, duration = 1800) {
                 const toast = document.createElement('div'); toast.classList.add('toast'); toast.textContent = message;
                 toastContainer.appendChild(toast);
@@ -527,12 +298,12 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
                 setTimeout(() => { toast.classList.add('hide'); toast.addEventListener('transitionend', () => toast.remove()); }, duration);
             }
 
-            // ── HINT LOGIC ──
+            // ── HINT LOGIC ─────────────────────────
+            function isRowComplete() { return getCurrentGuessPadded() === state.targetWord; }
             function updateHintButton() {
                 const remaining = 3 - state.hintsUsed; hintCountSpan.textContent = remaining;
                 hintBtn.disabled = remaining <= 0 || state.gameStatus !== 'playing' || isRowComplete();
             }
-            function isRowComplete() { return getCurrentGuessPadded() === state.targetWord; }
             function giveHint() {
                 if (state.gameStatus !== 'playing' || state.isRevealing) return;
                 if (state.hintsUsed >= 3) return showToast('No hints remaining');
@@ -547,7 +318,7 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
                 state.hintsUsed++; syncCurrentTile(); updateHintButton();
             }
 
-            // ── GAME LOGIC ──
+            // ── GAME LOGIC ─────────────────────────
             function getFeedback(guess, target) {
                 const res = Array(5).fill('absent');
                 const tl = target.split(''), gl = guess.split('');
@@ -581,72 +352,34 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
             }
 
             function submitGuess() {
-                if (state.mode === 'online') {
-                    if (state.gameStatus !== 'playing' || state.isRevealing) return;
+                if (state.gameStatus !== 'playing' || state.isRevealing) return;
+                syncCurrentTile();
+                if (state.currentTile < 5) { showToast('Not enough letters'); shakeRow(state.currentRow); return; }
+                const guess = state.guesses[state.currentRow];
+                if (!guess || guess.length !== 5) return;
+                if (!validWordsSet.has(guess)) { showToast('Not in word list'); shakeRow(state.currentRow); return; }
+                state.isRevealing = true;
+                const feedback = getFeedback(guess, state.targetWord);
+                applyFeedbackToRow(state.currentRow, feedback, () => {
+                    updateKeyboardState(guess, feedback);
+                    state.isRevealing = false;
+                    if (guess === state.targetWord) {
+                        state.gameStatus = 'won';
+                        updateMessageArea();
+                        winBounceRow(state.currentRow);
+                        updateHintButton();
+                        return;
+                    }
+                    if (state.currentRow >= 5) {
+                        state.gameStatus = 'lost';
+                        updateMessageArea();
+                        updateHintButton();
+                        return;
+                    }
+                    state.currentRow++;
+                    state.currentTile = 0;
                     syncCurrentTile();
-                    if (state.currentTile < 5) { showToast('Not enough letters'); shakeRow(state.currentRow); return; }
-                    const guess = state.guesses[state.currentRow];
-                    if (!guess || guess.length !== 5) return;
-                    if (!validWordsSet.has(guess)) { showToast('Not in word list'); shakeRow(state.currentRow); return; }
-                    state.isRevealing = true;
-                    const feedback = getFeedback(guess, state.targetWord);
-                    applyFeedbackToRow(state.currentRow, feedback, () => {
-                        updateKeyboardState(guess, feedback);
-                        state.isRevealing = false;
-
-                        if (guess === state.targetWord) {
-                            state.gameStatus = 'won';
-                            updateMessageArea();
-                            winBounceRow(state.currentRow);
-                            stopPolling();
-                            submitOnlineGuess(guess);
-                            updateHintButton();
-                            return;
-                        }
-
-                        submitOnlineGuess(guess);
-
-                        if (state.currentRow >= 5) {
-                            state.gameStatus = 'lost';
-                            updateMessageArea();
-                            stopPolling();
-                            updateHintButton();
-                            return;
-                        }
-                        state.currentRow++;
-                        state.currentTile = 0;
-                        syncCurrentTile();
-                    });
-                } else {
-                    if (state.gameStatus !== 'playing' || state.isRevealing) return;
-                    syncCurrentTile();
-                    if (state.currentTile < 5) { showToast('Not enough letters'); shakeRow(state.currentRow); return; }
-                    const guess = state.guesses[state.currentRow];
-                    if (!guess || guess.length !== 5) return;
-                    if (!validWordsSet.has(guess)) { showToast('Not in word list'); shakeRow(state.currentRow); return; }
-                    state.isRevealing = true;
-                    const feedback = getFeedback(guess, state.targetWord);
-                    applyFeedbackToRow(state.currentRow, feedback, () => {
-                        updateKeyboardState(guess, feedback);
-                        state.isRevealing = false;
-                        if (guess === state.targetWord) {
-                            state.gameStatus = 'won';
-                            updateMessageArea();
-                            winBounceRow(state.currentRow);
-                            updateHintButton();
-                            return;
-                        }
-                        if (state.currentRow >= 5) {
-                            state.gameStatus = 'lost';
-                            updateMessageArea();
-                            updateHintButton();
-                            return;
-                        }
-                        state.currentRow++;
-                        state.currentTile = 0;
-                        syncCurrentTile();
-                    });
-                }
+                });
             }
 
             function addLetter(letter) {
@@ -716,15 +449,13 @@ keyboardEl.querySelectorAll('.key').forEach(k => k.classList.remove('correct','m
             function pickTargetWord() { return targetWords[Math.floor(Math.random() * targetWords.length)]; }
             function newGame() { initGame(); showToast('New game started', 1200); }
 
-            // ── EVENT LISTENERS ──
+            // ── EVENT LISTENERS ────────────────────
             document.addEventListener('keydown', handlePhysicalKeyPress);
             newGameBtn.addEventListener('click', newGame);
             hintBtn.addEventListener('click', giveHint);
-            toggleModeBtn.addEventListener('click', () => { state.mode === 'solo' ? switchToOnline() : resetToSolo(); });
-            createChallengeBtn.addEventListener('click', createChallenge);
-            joinChallengeBtn.addEventListener('click', joinChallenge);
             keyboardEl.addEventListener('touchstart', e => { if (e.target.closest('.key')) e.preventDefault(); }, { passive: false });
 
+            // ── START THE GAME ────────────────────
             initGame();
             console.log('Wordle ready. Target:', state.targetWord.toUpperCase());
         })();
