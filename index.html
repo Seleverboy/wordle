@@ -634,44 +634,48 @@
             }
 
             async function pollChallengeState() {
-                try {
-                    const data = await upstashGet(`challenge:${state.onlineCode}`);
-                    if (!data) {
-                        stopPolling();
-                        showToast('Challenge expired');
-                        return;
-                    }
-                    const challenge = JSON.parse(data);
-                    if (challenge.winner) {
-                        state.onlineStatus = 'finished';
-                        stopPolling();
-                        if (challenge.winner === state.playerId) {
-                            showToast('You won! 🎉');
-                            state.gameStatus = 'won';
-                            updateMessageArea();
-                        } else {
-                            showToast('You lost! 😔');
-                            state.gameStatus = 'lost';
-                            updateMessageArea();
-                        }
-                        return;
-                    }
-
-                    if (challenge.status === 'playing' && state.onlineStatus !== 'playing') {
-                        state.onlineStatus = 'playing';
-                        state.targetWord = challenge.targetWord;
-                        startCountdown();
-                    } else if (challenge.status === 'waiting' && challenge.player1 && challenge.player2) {
-                        challenge.status = 'ready';
-                        await upstashSet(`challenge:${state.onlineCode}`, JSON.stringify(challenge), 600);
-                        state.onlineStatus = 'ready';
-                        onlineStatus.textContent = 'Opponent found! Starting soon...';
-                    }
-                } catch (e) {
-                    // ignore
-                }
+    try {
+        const data = await upstashGet(`challenge:${state.onlineCode}`);
+        if (!data) {
+            stopPolling();
+            showToast('Challenge expired');
+            return;
+        }
+        const challenge = JSON.parse(data);
+        if (challenge.winner) {
+            state.onlineStatus = 'finished';
+            stopPolling();
+            if (challenge.winner === state.playerId) {
+                showToast('You won! 🎉');
+                state.gameStatus = 'won';
+                updateMessageArea();
+            } else {
+                showToast('You lost! 😔');
+                state.gameStatus = 'lost';
+                updateMessageArea();
             }
+            return;
+        }
 
+        // If the host sees both players and status is still 'waiting', start the game
+        if (challenge.status === 'waiting' && challenge.player1 && challenge.player2 && state.isHost) {
+            challenge.status = 'playing';
+            challenge.startTime = Date.now();
+            await upstashSet(`challenge:${state.onlineCode}`, JSON.stringify(challenge), 600);
+            // Don't return – let the next condition catch the new status
+        }
+
+        if (challenge.status === 'playing' && state.onlineStatus !== 'playing') {
+            state.onlineStatus = 'playing';
+            state.targetWord = challenge.targetWord;
+            startCountdown();
+        } else if (challenge.status === 'waiting') {
+            onlineStatus.textContent = state.isHost ? 'Waiting for opponent...' : 'Joined! Waiting for host to start...';
+        }
+    } catch (e) {
+        // ignore
+    }
+}
             function stopPolling() {
                 if (state.pollInterval) {
                     clearInterval(state.pollInterval);
