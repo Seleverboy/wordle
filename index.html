@@ -35,6 +35,15 @@
     <meta name="twitter:image" content="https://wordle-neumorphic.vercel.app/preview.png">
 
     <style>
+
+.tile.hint-pulse { animation: hintPulse 0.35s ease; }
+@keyframes hintPulse {
+    0% { transform: scale(1); box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light); }
+    30% { transform: scale(1.1); box-shadow: 0 0 25px #2d2d2d; }
+    70% { transform: scale(0.95); box-shadow: 0 0 15px #555; }
+    100% { transform: scale(1); box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light); }
+}
+
         :root {
             --bg: #e0e5ec;
             --shadow-dark: #bebebe;
@@ -302,7 +311,7 @@
             // ── WIN MESSAGES ───────────────────────
             function getWinMessage(guessCount) {
                 const messages = {
-                    1: ["Unbelievable! A first‑guess miracle! 🏆","You got it on the first try?! Legendary! 🌟","One shot, one word. You're a wizard! 🧙‍♂️","First guess? That's absolutely incredible! 🎯","No way… right on the first attempt! 😮","Psychic powers confirmed. First guess! 🔮","A perfect start! You're unstoppable! 🚀","First attempt mastery! Who needs hints? 🥇","You didn't even break a sweat! First guess! 💪","Impossible? Nope. First guess champion! 🏅","That wasn't luck — that's pure skill! First try! 🎩","You've reached peak Wordle. First guess! 🏔️","Are you kidding me? First guess genius! 🤯","First guess! You should frame this moment. 🖼️","I'm speechless. First guess perfection. 🤫","First try? You've got to be cheating! (Just kidding) 😜","You didn't just solve it — you owned it! First guess! 👑","One and done. The Wordle gods bow to you. 🙇‍♂️","Is this real life? First guess wizardry! 🌈","You peered into the matrix. First guess! 👁️","No warm‑up needed. First guess dominance! 💥","First guess victory dance incoming! 💃","The word never stood a chance. First try! ⚡","You've unlocked ultra instinct. First guess! 🥋","First guess? I'm calling the record books. 📖","Not even a second thought. First guess mastery! 🌠","First guess. Drop the mic. 🎤","That's a hole‑in‑one, Wordle style! ⛳","You must be reading my mind. First guess! 🧠","First guess = instant legend status. 🐐","No hints, no hesitation. First guess hero! 🦸‍♂️","You just set the bar impossibly high. First try! 📈","First guess, pure instinct. Amazing! 🐅","You made the target word beg for mercy. First guess! 😂","First guess perfection. You're on fire! 🔥","Wordle? More like 'Already Solved'. First try! ✅","You saw the word before you even started. First guess! 🔭","First guess — the best kind of guess. 💯","I think you broke the game. First guess! 🎮","First guess, no big deal… just kidding, HUGE deal! 🎉"],
+                    1: ["Unbelievable! A first‑guess miracle! 🏆","You got it on the first try?! Legendary! 🌟","One shot, one word. You're a wizard! 🧙‍♂️","First guess? That's absolutely incredible! 🎯","No way… right on the first attempt! 😮","Psychic powers confirmed. First guess! 🔮","A perfect start! You're unstoppable! 🚀","First attempt mastery! Who needs hints? 🥇","You didn't even break a sweat! First guess! 💪","Impossible? Nope. First guess champion! 🏅","That wasn't luck — that's pure skill! First try! 🎩","You've reached peak Wordle. First guess! 🏔️","Are you kidding me? First guess genius! 🤯","First guess! You should frame this moment. 🖼️","I'm speechless. First guess perfection. 🤫","First try? You've got to be cheating! (Just kidding) 😜","You didn't just solve it — you owned it! First guess! 👑","One and done. You're simply the best! 🥇","Is this real life? First guess wizardry! 🌈","You peered into the matrix. First guess! 👁️","No warm‑up needed. First guess dominance! 💥","First guess victory dance incoming! 💃","The word never stood a chance. First try! ⚡","You've unlocked ultra instinct. First guess! 🥋","First guess? I'm calling the record books. 📖","Not even a second thought. First guess mastery! 🌠","First guess. Drop the mic. 🎤","That's a hole‑in‑one, Wordle style! ⛳","You must be reading my mind. First guess! 🧠","First guess = instant legend status. 🐐","No hints, no hesitation. First guess hero! 🦸‍♂️","You just set the bar impossibly high. First try! 📈","First guess, pure instinct. Amazing! 🐅","You made the target word beg for mercy. First guess! 😂","First guess perfection. You're on fire! 🔥","Wordle? More like 'Already Solved'. First try! ✅","You saw the word before you even started. First guess! 🔭","First guess — the best kind of guess. 💯","I think you broke the game. First guess! 🎮","First guess, no big deal… just kidding, HUGE deal! 🎉"],
                     2: ["Brilliant! Second try is world‑class! ✨","Two guesses! That's outrageously good! 🥈","You cracked it in two? Genius! 🧠","Only two guesses? You're on fire! 🔥","Second guess wizardry! So impressive! 🪄","Two tries, one winner. That's elite play! 🎖️","Amazing! Two guesses prove your talent! 💎","Two steps and done. You're a natural! 🌪️","Second guess? That's almost too fast! ⚡","Fast, sharp, and brilliant. Two guesses! 🦅","You made that look easy! Second try! 😎","Two guesses is super rare. You rock! 🤘","Precision play — second guess mastery! 📈","Only two? I'm in awe. Well done! 🙌","Two tries! You're in the top 1%! 📊","A double‑take victory! Second guess magic! 🎩","Two guesses, zero doubts. You crushed it! 💪","You barely broke a sweat. Second try! 💧","Two guesses? You must have a sixth sense. 👁️","Second guess — efficient and deadly. 🎯","You read the word like a book. Two tries! 📚","Two guess wonder! The crowd goes wild! 📣","No messing about. Two guesses, pure skill. 🧩","That's how you set a pace. Second try! ⏩","Second guess — you're playing on easy mode now. 🎮","Two tries, one epic win. You're a natural! 🌟","You spotted it instantly on guess two. 🔍","Two guesses — you're officially a Wordle pro. 🏅","Second guess, no hesitation. Legendary! 🗡️","You made the word nervous on guess two. 😏","Two guesses, and the puzzle is solved. Clean! 🧹","Second guess, maximum style. 😎","You're two steps ahead of everyone. Second try! 👟","Two guesses! You're a word‑whisperer. 🗣️","Second guess, flawless execution. 💯","You had it in two? That's just showing off. 😜","Two guesses — the sweet spot of victory. 🍯","Guess two, game over. You're incredible! 🚫","Two guesses? That's a chef's kiss solve. 👨‍🍳","Second guess heroics! You've earned a break. 🛋️"],
                     3: ["Nicely done! You cracked it in three. 👏","Three guesses — solid and skillful! 🌱","A hat‑trick of accuracy! Three tries! 🎩","Three steps, one victory. You're sharp! 🧩","Efficient and clever. Three guesses! ⭐","Three tries is nothing to sneeze at! 😄","Great puzzle solving — three guesses! 🧵","Three and done. You're clearly an expert! 📚","Three guesses! That's the sweet spot. 🍬","On the third try, you triumphed! 🏁","You pieced it together in just three! 🧶","Three guesses, zero hesitation. Nice! 🥉","Crisp thinking. Three tries! 🧼","Third time's the charm! You nailed it! 🍀","Three guesses, pure strategy. 💡","You solved it in three — above average! 📈","Three guesses, one proud moment. 😊","Tricky word, but three tries did the job! 🔧","Three guesses, a perfect balance of luck and skill. ⚖️","Third guess, flawless logic. 🧠","You sniffed it out in three! 🐕","Three tries, elegant solution. 🎨","You cracked the code in three. 🔐","Three guesses — you're in the zone. 🧘","Three guesses, but it felt like two. 😎","Third try's a winner! Great job! 👍","Three guesses, no stress. You're cool. 🧊","You danced around the word and nailed it in three. 💃","Three guesses, true Wordle finesse. 🍷","Third guess, and the puzzle surrenders. 🏳️","You tamed the word in just three tries. 🦁","Three guesses, and you're all smiles. 😁","Third attempt, perfect execution. 💯","Three guesses — that's a winning formula. 🧪","You figured it out with room to spare. Three tries! 🕊️","Three guesses, clean and satisfying. 🧽","Third time's the charm, without a doubt. 🔮","Three guesses, and it all clicked. 🖱️","You made the word behave in three. 👌","Three guesses — you're a Wordle natural. 🌳"],
                     4: ["Solid work. Four guesses isn't bad at all. 🙂","Four tries, one win. That's a job well done! 👍","You got there in four. Steady and smart! 📏","Four guesses — that's a respectable score. 🏡","No rush, just right. Four guesses! 🐢","You figured it out in four. Good job! 🧮","Four steps to victory. That's the average zone! 📊","A little thinking, a little luck. Four! 🍀","Four tries. Clean and confident play! 🧹","Well done! Four guesses earns a nod. 🤝","Four guesses — you're right on track. 🛤️","Smooth solving in four moves. 🎵","Four tries, no drama. Nice work! ☮️","You kept your cool and solved in four. 😌","Four guesses, one smile. You did it! 😊","Four tries, but you made it look easy. 😎","That was a steady climb to victory. Four guesses! 🧗","Four guesses — not too fast, not too slow. 🐻","You cracked it in four. Perfectly paced. ⏱️","Four tries, no sweat. You're consistent. 🔄","Four guesses, and the word is yours. ✌️","Solid four‑guess solve. I'm impressed. 🤩","You stayed calm and collected. Four guesses! 🧘‍♂️","Four tries, a thoughtful solve. 💭","Nothing wrong with a four‑guess win! 🏅","Four guesses — you gave it a good think. 🤔","You chipped away and got it in four. 🪓","Four guesses, classic Wordle style. 👔","Four tries, and the puzzle is no more. 🚮","You worked it out in four. Nice logic! 🗝️","Four guesses — the Goldilocks win. Not too hot, not too cold. 🐻‍❄️","Four tries, one happy player. 😄","You solved it in four — that's a winner! 🥇","Four guesses, well played. 🎮","You got it in four. Take a bow. 🎭","Four tries, steady hands. 🙌","Four guesses — you know your words. 📖","No lucky first guess, but four gets it done. 🍀","Four tries, and you're moving on! 🚶","Four guesses — you've earned a cookie. 🍪"],
@@ -334,19 +343,28 @@
                 const remaining = 3 - state.hintsUsed; hintCountSpan.textContent = remaining;
                 hintBtn.disabled = remaining <= 0 || state.gameStatus !== 'playing' || isRowComplete();
             }
-            function giveHint() {
-                if (state.gameStatus !== 'playing' || state.isRevealing) return;
-                if (state.hintsUsed >= 3) return showToast('No hints remaining');
-                const padded = getCurrentGuessPadded(), target = state.targetWord;
-                const eligible = [];
-                for (let i = 0; i < 5; i++) if (padded[i] !== target[i]) eligible.push(i);
-                if (eligible.length === 0) return showToast('Word already complete');
-                const pos = eligible[Math.floor(Math.random() * eligible.length)];
-                let arr = padded.split(''); arr[pos] = target[pos];
-                state.guesses[state.currentRow] = arr.join('').trimEnd();
-                updateTileDisplay(state.currentRow, pos, target[pos]);
-                state.hintsUsed++; syncCurrentTile(); updateHintButton();
-            }
+           function giveHint() {
+    if (state.gameStatus !== 'playing' || state.isRevealing) return;
+    if (state.hintsUsed >= 3) return showToast('No hints remaining');
+    const padded = getCurrentGuessPadded(), target = state.targetWord;
+    const eligible = [];
+    for (let i = 0; i < 5; i++) if (padded[i] !== target[i]) eligible.push(i);
+    if (eligible.length === 0) return showToast('Word already complete');
+    const pos = eligible[Math.floor(Math.random() * eligible.length)];
+    let arr = padded.split(''); arr[pos] = target[pos];
+    state.guesses[state.currentRow] = arr.join('').trimEnd();
+    updateTileDisplay(state.currentRow, pos, target[pos]);
+
+    // ✨ Animation only (pulse)
+    const tile = getTile(state.currentRow, pos);
+    tile.classList.add('hint-pulse');
+    tile.addEventListener('animationend', function handler() {
+        tile.classList.remove('hint-pulse');
+        tile.removeEventListener('animationend', handler);
+    });
+
+    state.hintsUsed++; syncCurrentTile(); updateHintButton();
+}
 
             // ── GAME LOGIC ─────────────────────────
             function getFeedback(guess, target) {
